@@ -11,7 +11,7 @@ export default class Login extends React.Component {
     this.state = {
       username:"",
       password:""
-    }
+    } 
   }
 
   onLogin =(event) => {

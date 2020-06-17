@@ -9,7 +9,7 @@ import {Link} from 'react-router-dom';
 class AddMeal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = { 
       selected: null,
       amount: "",
       searchterm: "",
