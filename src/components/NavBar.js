@@ -22,7 +22,7 @@ export default class NavBar extends React.Component {
     
 
     return(
-      <Navbar className="navbar" variant="dark" className="navbar-expand pl-4">
+      <Navbar variant="dark" className="navbar navbar-expand pl-4">
         <Navbar.Brand href="" id="logo">Nutrack</Navbar.Brand>
         <Nav className="pl-3" activeKey="link-1">
           <Nav.Item>
