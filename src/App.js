@@ -10,7 +10,7 @@ import Login from './components/Login';
 import AddMeal from './components/AddMeal';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {withRouter} from 'react-router-dom';
-
+import connect from 'redux';
 
 class App extends React.Component {
 	constructor(props) {
@@ -204,58 +204,6 @@ class App extends React.Component {
 		})
   }
 
-  onLogin = (user) => {
-		let request = {
-			method:"POST",
-			mode:"cors",
-			headers:{"Content-type":"application/json"},
-			body:JSON.stringify(user)
-    }
-    this.setLoadingState(true);
-		fetch("/login",request).then(response => {
-			this.setLoadingState(false);
-			if(response.ok) {
-				response.json().then(data => {
-					this.setState({
-            token:data.token,
-            username:data.username,
-            isLogged:true
-					}, () => {
-						this.saveToStorage();
-					}) 
-				}).catch(error => {
-					console.error(error)
-        })
-			} else {
-				console.log("Server responded with status:",response.status);
-			}
-		}).catch(error => {
-			this.setLoadingState(false);
-			console.error(error);
-    })
-    
-	}
-	
-	onLogout = () => {
-		let request = {
-			method:"POST",
-			mode:"cors",
-			headers: {"Content-type":"application/json",
-			"token":this.state.token}
-		}
-    this.setLoadingState(true);
-		fetch("/logout",request).then(response => {
-			this.setState({
-        username:"",
-				token:"",
-				isLogged:false
-			})
-			sessionStorage.removeItem("state");
-		}).catch(error => {
-			this.setLoadingState(false);
-			console.error(error);
-    })
-	}
 
   onDateChange = (offset) => {
     let tempDate = this.state.date;
@@ -305,4 +253,11 @@ class App extends React.Component {
   }
 }
 
-export default withRouter(App);
+const mapStateToProps = (state) => {
+	return {
+		isLogged:state.login.isLogged,
+		token:state.login.token
+	}
+}
+
+export default withRouter(connect(mapStateToProps)(App));
