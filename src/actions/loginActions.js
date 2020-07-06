@@ -4,6 +4,7 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 export const LOGIN_FAILED = "LOGIN_FAILED"
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS"
 export const LOGOUT_FAILED = "LOGOUT_FAILED"
+export const CLEAR_FOODREDUCER_STATE = "CLEAR_FOODREDUCER_STATE"
 
 
 // async actions
@@ -44,10 +45,10 @@ export const onLogin = (user) => {
       dispatch(loading());
       fetch("/logout",request).then(response => {
         dispatch(logoutSuccess())
-        //dispatch(clearContactReducerState())
+        dispatch(clearFoodReducerState())
       }).catch(error => {
         dispatch(logoutFailed("Server responded with an error",error))
-        //dispatch(clearContactReducerState())
+        dispatch(clearFoodReducerState())
       })
     }
   }
@@ -88,5 +89,11 @@ export const onLogin = (user) => {
   export const logoutFailed = (error) => {
     return {
       type:LOGOUT_FAILED
+    }
+  }
+
+  export const clearFoodReducerState = () => {
+    return {
+      type:CLEAR_FOODREDUCER_STATE
     }
   }
