@@ -17,6 +17,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
+    "dev": "parcel ./public/index.html",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
