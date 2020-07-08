@@ -14,7 +14,7 @@ export const REMOVE_MEAL_SUCCESS = "REMOVE_MEAL_SUCCESS"
 export const REMOVE_MEAL_FAILED = "REMOVE_MEAL_FAILED"
 export const CLEAR_FOODREDUCER_STATE = "CLEAR_FOODREDUCER_STATE"
 
-
+//test
 
 
 export const getFoodList = () => {
