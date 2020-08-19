@@ -17,8 +17,8 @@ import {
 
 const getInitialStateFromStorage = () => {
 	if(sessionStorage.getItem("foodstate")) {
-		let contactstate = JSON.parse(sessionStorage.getItem("foodstate"))
-		return contactstate;
+		let foodstate = JSON.parse(sessionStorage.getItem("foodstate"))
+		return foodstate;
 	} else {
 		return {
       foodList:[],
@@ -37,14 +37,119 @@ const saveToStorage = (state) => {
 const initialState = getInitialStateFromStorage();
 
 const foodReducer = (state = initialState,action) => {
-	console.log("ContactReducer, action:",action);
+	console.log("FoodReducer, action:",action);
 	let tempState = {}
 	switch(action.type) {
-		case FETCH_CONTACTS_SUCCESS:
+		case GET_FOOD_LIST_SUCCESS:
 			tempState = {
 				...state,
-				list:action.list,
+				foodList:action.foodList,
 				error:""
 			}
 			saveToStorage(tempState);
-			return tempState;
+      return tempState;
+
+    case GET_FOOD_LIST_FAILED:
+      tempState = {
+        ...state,
+        error:action.error
+      }
+      saveToStorage(tempState);
+      return tempState;
+      
+    case GET_MEALS_SUCCESS:
+      tempState = {
+        ...state,
+        meals:action.meals,
+        error:""
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    case GET_MEALS_FAILED:
+      tempState = {
+        ...state,
+        error:action.error
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    case ADD_FOOD_SUCCESS:
+      tempState = {
+        ...state,
+				error:""
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    case ADD_FOOD_FAILED:
+      tempState = {
+        ...state,
+        error:action.error
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    case ADD_MEAL_SUCCESS:
+      tempState = {
+        ...state,
+				error:""
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    case ADD_MEAL_FAILED:
+      tempState = {
+        ...state,
+        error:action.error
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    case REMOVE_FOOD_SUCCESS:
+      tempState = {
+        ...state,
+				error:""
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    case REMOVE_FOOD_FAILED:
+      tempState = {
+        ...state,
+        error:action.error
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    case REMOVE_MEAL_SUCCESS:
+      tempState = {
+        ...state,
+				error:""
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    case REMOVE_MEAL_FAILED:
+      tempState = {
+        ...state,
+        error:action.error
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    case CLEAR_FOODREDUCER_STATE:
+      tempState = {
+        foodList:[],
+        meals:[],
+        error:"",
+        
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    default:
+      return state;
+  }
+}
+export default foodReducer;

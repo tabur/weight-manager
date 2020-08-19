@@ -3,9 +3,10 @@ import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
+import {connect} from 'react-redux';
+import {onLogin} from '../actions/loginActions';
 
-
-export default class Login extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +23,7 @@ export default class Login extends React.Component {
       username: this.state.username,
       password: this.state.password
     }
-    this.props.onLogin(user);
+    this.props.dispatch(onLogin(user));
   }
 
   
@@ -55,3 +56,4 @@ export default class Login extends React.Component {
   
 
 }
+export default connect()(Login);

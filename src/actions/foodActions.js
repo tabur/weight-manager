@@ -15,8 +15,6 @@ export const REMOVE_MEAL_FAILED = "REMOVE_MEAL_FAILED"
 export const CLEAR_FOODREDUCER_STATE = "CLEAR_FOODREDUCER_STATE"
 
 
-
-
 export const getFoodList = () => {
   return dispatch => 	{
     let request = {
