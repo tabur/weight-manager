@@ -14,8 +14,6 @@ export const REMOVE_MEAL_SUCCESS = "REMOVE_MEAL_SUCCESS"
 export const REMOVE_MEAL_FAILED = "REMOVE_MEAL_FAILED"
 export const CLEAR_FOODREDUCER_STATE = "CLEAR_FOODREDUCER_STATE"
 
-//test
-
 
 export const getFoodList = () => {
   return dispatch => 	{
@@ -223,10 +221,10 @@ export const getFoodListFailed = (error) => {
 	}
 }
 
-export const getMealsSuccess = (meals) => {
+export const getMealsSuccess = (mealList) => {
 	return {
 		type:GET_MEALS_SUCCESS,
-		meals:meals
+		mealList:mealList
 	}
 }
 
