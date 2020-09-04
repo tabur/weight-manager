@@ -91,11 +91,12 @@ class App extends React.Component {
   }
 }
 
-const mappropsToProps = (props) => {
+const mapStateToProps = (state) => {
 	return {
-		isLogged:props.login.isLogged,
-		token:props.login.token
+    isLogged:state.login.isLogged,
+    username:state.login.username,
+		token:state.login.token
 	}
 }
 
-export default withRouter(connect(mappropsToProps)(App));
+export default withRouter(connect(mapStateToProps)(App));

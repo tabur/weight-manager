@@ -221,10 +221,10 @@ export const getFoodListFailed = (error) => {
 	}
 }
 
-export const getMealsSuccess = (meals) => {
+export const getMealsSuccess = (mealList) => {
 	return {
 		type:GET_MEALS_SUCCESS,
-		meals:meals
+		mealList:mealList
 	}
 }
 

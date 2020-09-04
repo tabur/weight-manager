@@ -60,7 +60,7 @@ const foodReducer = (state = initialState,action) => {
     case GET_MEALS_SUCCESS:
       tempState = {
         ...state,
-        meals:action.meals,
+        mealList:action.mealList,
         error:""
       }
       saveToStorage(tempState);

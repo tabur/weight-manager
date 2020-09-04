@@ -4,16 +4,20 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
-
-export default class DayView extends React.Component {
+class DayView extends React.Component {
   
-  componentDidMount() {
-    this.props.getMeals();
+  constructor(props) {
+    super(props);
   }
+
+  // componentDidMount() {
+  //   this.props.getMeals();
+  // }
   
   render(){
-    let diaryRow = this.props.meals.map((meal, i) => 
+    let diaryRow = this.props.mealList.map((meal, i) => 
       (i%2===0) ?
       (<Row key={meal.id} id={meal.id} className="diary-item p-1 pl-4 bg-light">
         <Col md={3} className="cell">{meal.food.manufacturer} {meal.food.description}</Col>
@@ -62,12 +66,20 @@ export default class DayView extends React.Component {
         </Row>
         <Row id="diary-total-numbers" className="py-1 pl-4 font-weight-bold bg-header text-light">
           <Col md={1} className="offset-3">Total</Col>
-          <Col md={1} className="pr-1">{this.props.meals.reduce((a, v) => a + v.food.energy*(v.amount/100), 0).toFixed(1)} kJ</Col>
-          <Col md={1}>{this.props.meals.reduce((a, v) => a + v.food.carbs*(v.amount/100), 0).toFixed(1)} g</Col>
-          <Col md={1}>{this.props.meals.reduce((a, v) => a + v.food.fat*(v.amount/100), 0).toFixed(1)} g</Col>
-          <Col md={1}>{this.props.meals.reduce((a, v) => a + v.food.protein*(v.amount/100), 0).toFixed(1)} g</Col>
+          <Col md={1} className="pr-1">{this.props.mealList.reduce((a, v) => a + v.food.energy*(v.amount/100), 0).toFixed(1)} kJ</Col>
+          <Col md={1}>{this.props.mealList.reduce((a, v) => a + v.food.carbs*(v.amount/100), 0).toFixed(1)} g</Col>
+          <Col md={1}>{this.props.mealList.reduce((a, v) => a + v.food.fat*(v.amount/100), 0).toFixed(1)} g</Col>
+          <Col md={1}>{this.props.mealList.reduce((a, v) => a + v.food.protein*(v.amount/100), 0).toFixed(1)} g</Col>
         </Row>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+	return {
+    mealList:state.food.mealList
+	}
+}
+
+export default connect(mapStateToProps)(DayView);
