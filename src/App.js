@@ -11,51 +11,60 @@ import AddMeal from './components/AddMeal';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {getMeals} from './actions/mealActions';
+//import {DateProvider} from 'DateContext';
 
 class App extends React.Component {
 	constructor(props) {
     super(props);
-    
-    //food.getFoodList();
+
+    let tempDate = new Date();
+
+    this.state = {
+      date: tempDate,
+    }
+    //this.state.dispatch(getFoodList);
   }
 
   //static date;
 
 	//meals: [date, amount, food{}]
 
-	//helpers
-	
-	// loadFromStorage = () => {
-	// 	if(sessionStorage.getItem("props")) {
-  //     let props = JSON.parse(sessionStorage.getItem("props"));
-  //     props.date = new Date(props.date);
-	// 		this.setprops(props);
-	// 	}
-	// }
-	
-	// componentDidMount() {
-	// 	this.loadFromStorage();
-  // }
+  //helpers
   
-  // setLoadingprops = (loading) => {
-	// 	this.setprops({
-	// 		loading:loading
-  //   })
-  // }
-
-  onDateChange = (offset) => {
-    //let tempDate = this.props.date;
-    //tempDate.setDate(this.props.date.getDate()+offset);
-    //this.setprops({date:tempDate});
-    //this.saveToStorage();
-    //this.getMeals();
+	
+	loadFromStorage = () => {
+		if(sessionStorage.getItem("state")) {
+      let state = JSON.parse(sessionStorage.getItem("state"));
+      state.date = new Date(state.date);
+			this.setState(state);
+		}
+	}
+	
+	saveToStorage = () => {
+		sessionStorage.setItem("state",JSON.stringify(this.state));
+	}
+	
+	componentDidMount() {
+		this.loadFromStorage();
   }
+  
+
+  
+  onDateChange = (offset) => {
+    let tempDate = this.state.date;
+    tempDate.setDate(this.state.date.getDate()+offset);
+    this.setState({date:tempDate});
+    this.saveToStorage();
+    this.props.dispatch(getMeals);
+  }
+
+
 
   render() {
     return(
       <div className="App">
-        <NavBar username={this.props.username} isLogged={this.props.isLogged}
-        onLogout={this.onLogout} />
+        <NavBar />
         <Container id="main-content" className="mt-3">
           <Switch>
             <Route exact path="/" render={() =>(
@@ -65,12 +74,12 @@ class App extends React.Component {
             )}/>
             <Route path="/diary" render={() => (
               this.props.isLogged ?
-              (<DayView />):
+              (<DayView onDateChange={this.onDateChange} date={this.state.date}/>):
               (<Redirect to="/"/>)
             )}/>
             <Route path="/addmeal" render={() => (
               this.props.isLogged ?
-              (<AddMeal />):
+              (<AddMeal date={this.state.date}/>):
               (<Redirect to="/"/>)
             )}/>
             <Route path="/addfood" render={() => (
@@ -82,7 +91,7 @@ class App extends React.Component {
               this.props.isLogged ?
               (<Redirect to="/diary"/>):
               (<Redirect to="/"/>)
-			 	    )}/>
+            )}/>
           </Switch>
         </Container>
       </div>
@@ -95,7 +104,7 @@ const mapStateToProps = (state) => {
 	return {
     isLogged:state.login.isLogged,
     username:state.login.username,
-		token:state.login.token
+    token:state.login.token
 	}
 }
 

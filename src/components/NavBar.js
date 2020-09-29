@@ -3,8 +3,10 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import {Link} from 'react-router-dom';
+import {onLogout} from '../actions/loginActions';
+import {connect} from 'react-redux';
 
-export default class NavBar extends React.Component {
+class NavBar extends React.Component {
 
   render() {
 
@@ -14,7 +16,7 @@ export default class NavBar extends React.Component {
       
       link1 = <Nav.Item><Link to="/diary">Diary</Link><span className="sr-only"></span></Nav.Item>
       options = <NavDropdown variant="light" title={this.props.username} className="ml-auto mr-2" alignRight aria-labelledby="navbarDropdownMenuLink">
-                  <NavDropdown.Item onClick={this.props.onLogout}>
+                  <NavDropdown.Item onClick={() => {this.props.dispatch(onLogout(this.props.token))}}>
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>
@@ -37,3 +39,14 @@ export default class NavBar extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    username:state.login.username,
+    token:state.login.token,
+    isLogged:state.login.isLogged,
+
+  }
+}
+
+export default connect(mapStateToProps)(NavBar);

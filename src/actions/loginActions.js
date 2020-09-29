@@ -20,7 +20,7 @@ export const onLogin = (user) => {
 		fetch("/login",request).then(response => {
 			if(response.ok) {
 				response.json().then(data => {
-          dispatch(loginSuccess(data.token)); 
+          dispatch(loginSuccess(user.username, data.token)); 
 				}).catch(error => {
           dispatch(loginFailed("Failed to parse response. Reason:",error))
         })
@@ -34,66 +34,67 @@ export const onLogin = (user) => {
   }
 }
 	
-	export const onLogout = () => {
-    return dispatch => 	{
-      let request = {
-        method:"POST",
-        mode:"cors",
-        headers: {"Content-type":"application/json",
-        "token":this.state.token}
-      }
-      dispatch(loading());
-      fetch("/logout",request).then(response => {
-        dispatch(logoutSuccess())
-        dispatch(clearFoodReducerState())
-      }).catch(error => {
-        dispatch(logoutFailed("Server responded with an error",error))
-        dispatch(clearFoodReducerState())
-      })
+export const onLogout = (token) => {
+  return dispatch => 	{
+    let request = {
+      method:"POST",
+      mode:"cors",
+      headers: {"Content-type":"application/json",
+      "token":token}
     }
+    dispatch(loading());
+    fetch("/logout",request).then(response => {
+      dispatch(logoutSuccess())
+      dispatch(clearFoodReducerState())
+    }).catch(error => {
+      dispatch(logoutFailed("Server responded with an error",error))
+      dispatch(clearFoodReducerState())
+    })
   }
+}
 
 
-  export const loading = () => {
-    return {
-      type:LOADING
-    }
+export const loading = () => {
+  return {
+    type:LOADING
   }
-  
-  export const endLoading = () => {
-    return {
-      type:END_LOADING
-    }
-  }
-  
-  export const loginSuccess = (token) => {
-    return {
-      type:LOGIN_SUCCESS,
-      token:token
-    }
-  }
-  
-  export const loginFailed = (error) => {
-    return {
-      type:LOGIN_FAILED,
-      error:error
-    }
-  }
-  
-  export const logoutSuccess = () => {
-    return {
-      type:LOGOUT_SUCCESS
-    }
-  }
-  
-  export const logoutFailed = (error) => {
-    return {
-      type:LOGOUT_FAILED
-    }
-  }
+}
 
-  export const clearFoodReducerState = () => {
-    return {
-      type:CLEAR_FOODREDUCER_STATE
-    }
+export const endLoading = () => {
+  return {
+    type:END_LOADING
   }
+}
+
+export const loginSuccess = (username, token) => {
+  return {
+    type:LOGIN_SUCCESS,
+    username:username,
+    token:token
+  }
+}
+
+export const loginFailed = (error) => {
+  return {
+    type:LOGIN_FAILED,
+    error:error
+  }
+}
+
+export const logoutSuccess = () => {
+  return {
+    type:LOGOUT_SUCCESS
+  }
+}
+
+export const logoutFailed = (error) => {
+  return {
+    type:LOGOUT_FAILED
+  }
+}
+
+export const clearFoodReducerState = () => {
+  return {
+    type:CLEAR_FOODREDUCER_STATE
+  }
+}

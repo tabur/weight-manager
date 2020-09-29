@@ -13,7 +13,8 @@ const getInitialStateFromStorage = () => {
 		return loginstate;
 	} else {
 		return {
-				token:"",
+        token:"",
+        username: "",
 				isLogged:false,
 				loading:false,
 				error:""
@@ -50,7 +51,8 @@ const loginReducer = (state = initialState, action) => {
 		case LOGIN_SUCCESS:
 			tempState = {
 				isLogged:true,
-				token:action.token,
+        token:action.token,
+        username:action.username,
 				error:"",
 				loading:false
 			}
@@ -69,7 +71,8 @@ const loginReducer = (state = initialState, action) => {
 		case LOGOUT_SUCCESS:
 			tempState ={
 				isLogged:false,
-				token:"",
+        token:"",
+        username:"",
 				error:"",
 				loading:false
 			}
@@ -79,7 +82,8 @@ const loginReducer = (state = initialState, action) => {
 		case LOGOUT_FAILED: 
 			tempState ={
 				isLogged:false,
-				token:"",	
+        token:"",
+        username:"",
 				error:action.error,
 				loading:false
 			}

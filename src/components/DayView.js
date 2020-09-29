@@ -5,17 +5,23 @@ import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {removeMeal, getMeals} from '../actions/mealActions';
 
 class DayView extends React.Component {
   
   constructor(props) {
     super(props);
+    console.log(this.props.date);
+    //this.props.dispatch(getMeals(this.props.token, this.props.date));
   }
 
-  // componentDidMount() {
-  //   this.props.getMeals();
-  // }
-  
+  componentDidMount() {
+    this.props.dispatch(getMeals(this.props.token, this.props.date));
+  }
+  componentDidUpdate() {
+    this.props.dispatch(getMeals(this.props.token, this.props.date));
+  }
+
   render(){
     let diaryRow = this.props.mealList.map((meal, i) => 
       (i%2===0) ?
@@ -26,7 +32,7 @@ class DayView extends React.Component {
         <Col md={1} id="carbs" className="cell">{meal.food.carbs*(meal.amount/100)} g</Col>
         <Col md={1} id="fat" className="cell">{meal.food.fat*(meal.amount/100)} g</Col>
         <Col md={1} id="protein" className="cell">{meal.food.protein*(meal.amount/100)} g</Col>
-        <Col md={1}><a href="#" onClick={() => this.props.removeMeal(meal.id)} className="text-danger font-weight-bold">X</a></Col>
+        <Col md={1}><a href="#" onClick={() => this.props.dispatch(removeMeal(this.props.token, meal.id))} className="text-danger font-weight-bold">X</a></Col>
       </Row>):
       (<Row key={meal.id} id={meal.id} className="diary-item p-1 pl-4">
         <Col md={3} className="cell">{meal.food.manufacturer} {meal.food.description}</Col>
@@ -35,7 +41,7 @@ class DayView extends React.Component {
         <Col md={1} id="carbs" className="cell">{meal.food.carbs*(meal.amount/100)} g</Col>
         <Col md={1} id="fat" className="cell">{meal.food.fat*(meal.amount/100)} g</Col>
         <Col md={1} id="protein" className="cell">{meal.food.protein*(meal.amount/100)} g</Col>
-        <Col md={1}><a href="#" onClick={() => this.props.removeMeal(meal.id)} className="text-danger font-weight-bold">X</a></Col>
+        <Col md={1}><a href="#" onClick={() => this.props.dispatch(removeMeal(this.props.token, meal.id))} className="text-danger font-weight-bold">X</a></Col>
       </Row>)
     )
 
@@ -78,7 +84,8 @@ class DayView extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-    mealList:state.food.mealList
+    mealList:state.meal.mealList,
+    token: state.login.token
 	}
 }
 

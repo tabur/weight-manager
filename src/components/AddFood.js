@@ -4,8 +4,9 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-
+import {addFood} from '../actions/foodActions';
 
 class AddFood extends React.Component {
 
@@ -50,7 +51,7 @@ class AddFood extends React.Component {
       salt:this.state.salt
 		}
 		
-		this.props.addFood(food);
+		this.props.dispatch(addFood(this.props.token, food));
 		
 		this.setState({
       manufacturer:"",
@@ -179,5 +180,11 @@ class AddFood extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    token:state.login.token
+  }
+}
  
-export default AddFood;
+export default connect(mapStateToProps)(AddFood);

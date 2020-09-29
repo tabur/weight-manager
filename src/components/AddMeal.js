@@ -3,7 +3,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import {Link} from 'react-router-dom';
-
+import {connect} from 'react-redux';
+import {getFoodList} from '../actions/foodActions';
+import {addMeal} from '../actions/mealActions'
 
 
 class AddMeal extends React.Component {
@@ -26,7 +28,7 @@ class AddMeal extends React.Component {
   onSubmit = (event) => {
     event.preventDefault();
     let meal = {"amount": this.state.amount, "food": this.state.selected}
-    this.props.addMeal(meal);
+    this.props.dispatch(addMeal(this.props.username, this.props.token, this.props.date, meal));
   }
 
   onSearch = (e) => {
@@ -35,7 +37,7 @@ class AddMeal extends React.Component {
 
 
   componentDidMount = () => {
-    this.props.getFoodList();
+    this.props.dispatch(getFoodList(this.props.token));
   }
 
   selectFood = (e) => {
@@ -182,4 +184,12 @@ class AddMeal extends React.Component {
   }
 }
 
-export default AddMeal;
+const mapStateToProps = (state) => {
+  return {
+    foodList:state.food.foodList,
+    username:state.login.username,
+    token:state.login.token
+  }
+}
+
+export default connect(mapStateToProps)(AddMeal);
