@@ -1,10 +1,10 @@
-export const LOADING = "LOADING"
-export const END_LOADING = "END_LOADING"
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
-export const LOGIN_FAILED = "LOGIN_FAILED"
-export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS"
-export const LOGOUT_FAILED = "LOGOUT_FAILED"
-export const CLEAR_FOODREDUCER_STATE = "CLEAR_FOODREDUCER_STATE"
+export const LOADING = "LOADING";
+export const END_LOADING = "END_LOADING";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILED = "LOGIN_FAILED";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const LOGOUT_FAILED = "LOGOUT_FAILED";
+export const CLEAR_FOODREDUCER_STATE = "CLEAR_FOODREDUCER_STATE";
 
 
 // async actions
@@ -22,13 +22,13 @@ export const onLogin = (user) => {
 				response.json().then(data => {
           dispatch(loginSuccess(user.username, data.token)); 
 				}).catch(error => {
-          dispatch(loginFailed("Failed to parse response. Reason:",error))
+          dispatch(loginFailed("Failed to parse response. Reason:",error));
         })
 			} else {
-				dispatch(loginFailed("Server responded with status:",response.status))
+				dispatch(loginFailed("Server responded with status:",response.status));
 			}
 		}).catch(error => {
-			dispatch(loginFailed("Server responded with an error:",error))
+			dispatch(loginFailed("Server responded with an error:",error));
     })
     
   }
@@ -44,11 +44,11 @@ export const onLogout = (token) => {
     }
     dispatch(loading());
     fetch("/logout",request).then(response => {
-      dispatch(logoutSuccess())
-      dispatch(clearFoodReducerState())
+      dispatch(logoutSuccess());
+      dispatch(clearFoodReducerState());
     }).catch(error => {
-      dispatch(logoutFailed("Server responded with an error",error))
-      dispatch(clearFoodReducerState())
+      dispatch(logoutFailed("Server responded with an error",error));
+      dispatch(clearFoodReducerState());
     })
   }
 }

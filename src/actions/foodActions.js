@@ -72,7 +72,8 @@ export const addFood = (token, food) => {
       }
     }).catch(error => {
       dispatch(endLoading());
-      dispatch(addFoodFailed("Server responded with an error:"+error));    })
+      dispatch(addFoodFailed("Server responded with an error:"+error));    
+    })
   }
 }  
 

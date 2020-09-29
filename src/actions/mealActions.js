@@ -1,15 +1,15 @@
 import {loading,endLoading,logoutSuccess} from './loginActions';
 import {history} from '../index.js';
 
-export const GET_MEALS_SUCCESS = "GET_MEALS_SUCCESS"
-export const GET_MEALS_FAILED = "GET_MEALS_FAILED"
-export const ADD_MEAL_SUCCESS = "ADD_MEAL_SUCCESS"
-export const ADD_MEAL_FAILED = "ADD_MEAL_FAILED"
-export const EDIT_MEAL_SUCCESS = "EDIT_MEAL_SUCCESS"
-export const EDIT_MEAL_FAILED = "EDIT_MEAL_FAILED"
-export const REMOVE_MEAL_SUCCESS = "REMOVE_MEAL_SUCCESS"
-export const REMOVE_MEAL_FAILED = "REMOVE_MEAL_FAILED"
-export const CLEAR_MEALREDUCER_STATE = "CLEAR_MEALREDUCER_STATE"
+export const GET_MEALS_SUCCESS = "GET_MEALS_SUCCESS";
+export const GET_MEALS_FAILED = "GET_MEALS_FAILED";
+export const ADD_MEAL_SUCCESS = "ADD_MEAL_SUCCESS";
+export const ADD_MEAL_FAILED = "ADD_MEAL_FAILED";
+export const EDIT_MEAL_SUCCESS = "EDIT_MEAL_SUCCESS";
+export const EDIT_MEAL_FAILED = "EDIT_MEAL_FAILED";
+export const REMOVE_MEAL_SUCCESS = "REMOVE_MEAL_SUCCESS";
+export const REMOVE_MEAL_FAILED = "REMOVE_MEAL_FAILED";
+export const CLEAR_MEALREDUCER_STATE = "CLEAR_MEALREDUCER_STATE";
 
 export const getMeals = (token, date) => {
   return dispatch => 	{
