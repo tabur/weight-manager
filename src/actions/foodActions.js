@@ -1,14 +1,15 @@
-import {loading,endLoading,logoutSuccess} from './loginActions'
+import {loading,endLoading,logoutSuccess} from './loginActions';
+import {history} from '../index.js';
 
-export const GET_FOOD_LIST_SUCCESS = "GET_FOOD_LIST_SUCCESS"
-export const GET_FOOD_LIST_FAILED = "GET_FOOD_LIST_FAILED"
-export const ADD_FOOD_SUCCESS = "ADD_FOOD_SUCCESS"
-export const ADD_FOOD_FAILED = "ADD_FOOD_FAILED"
-export const REMOVE_FOOD_SUCCESS = "REMOVE_FOOD_SUCCESS"
-export const REMOVE_FOOD_FAILED = "REMOVE_FOOD_FAILED"
-export const EDIT_FOOD_SUCCESS = "EDIT_FOOD_SUCCESS"
-export const EDIT_FOOD_FAILED = "EDIT_FOOD_FAILED"
-export const CLEAR_FOODREDUCER_STATE = "CLEAR_FOODREDUCER_STATE"
+export const GET_FOOD_LIST_SUCCESS = "GET_FOOD_LIST_SUCCESS";
+export const GET_FOOD_LIST_FAILED = "GET_FOOD_LIST_FAILED";
+export const ADD_FOOD_SUCCESS = "ADD_FOOD_SUCCESS";
+export const ADD_FOOD_FAILED = "ADD_FOOD_FAILED";
+export const REMOVE_FOOD_SUCCESS = "REMOVE_FOOD_SUCCESS";
+export const REMOVE_FOOD_FAILED = "REMOVE_FOOD_FAILED";
+export const EDIT_FOOD_SUCCESS = "EDIT_FOOD_SUCCESS";
+export const EDIT_FOOD_FAILED = "EDIT_FOOD_FAILED";
+export const CLEAR_FOODREDUCER_STATE = "CLEAR_FOODREDUCER_STATE";
 
 export const getFoodList = (token) => {
   return dispatch => 	{
@@ -55,7 +56,9 @@ export const addFood = (token, food) => {
     fetch("/api/food",request).then(response => {
       dispatch(endLoading());
       if(response.ok) {
-        dispatch(addFoodSuccess())
+        dispatch(addFoodSuccess());
+        history.push("/addmeal");
+
       } 
       else {
         if(response.status === 403) {
