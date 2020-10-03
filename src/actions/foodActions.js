@@ -1,5 +1,6 @@
-import {loading,endLoading,logoutSuccess} from './loginActions';
+import {logoutSuccess} from './loginActions';
 import {history} from '../index.js';
+import {trackPromise} from 'react-promise-tracker';
 
 export const GET_FOOD_LIST_SUCCESS = "GET_FOOD_LIST_SUCCESS";
 export const GET_FOOD_LIST_FAILED = "GET_FOOD_LIST_FAILED";
@@ -18,29 +19,28 @@ export const getFoodList = (token) => {
       mode:"cors",
       headers:{"Content-type":"application/json", "token":token}			
     }
-    dispatch(loading());
-    fetch("/api/food",request).then(response => {
-      dispatch(endLoading());
-      if(response.ok) {
-        response.json().then(data => {
-          dispatch(getFoodListSuccess(data));
-        }).catch(error => {
-          dispatch(getFoodListFailed("Failed to parse JSON data:",error));
-        })
-      } else {
-        if(response.status === 403) {
-          dispatch(getFoodListFailed("Session Failed."));
-          dispatch(logoutSuccess());
-          dispatch(clearFoodReducerState());
+    trackPromise(
+      fetch("/api/food",request).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            dispatch(getFoodListSuccess(data));
+          }).catch(error => {
+            dispatch(getFoodListFailed("Failed to parse JSON data:",error));
+          })
+        } else {
+          if(response.status === 403) {
+            dispatch(getFoodListFailed("Session Failed."));
+            dispatch(logoutSuccess());
+            dispatch(clearFoodReducerState());
+          }
+          else {
+            dispatch(getFoodListFailed("Server responded with status:",response.status));
+          }
         }
-        else {
-          dispatch(getFoodListFailed("Server responded with status:",response.status));
-        }
-      }
-    }).catch(error => {
-      dispatch(endLoading());
-      dispatch(getFoodListFailed("Server responded with an error:",error));
-    })
+      }).catch(error => {
+        dispatch(getFoodListFailed("Server responded with an error:",error));
+      })
+    );
   }
 }
 
@@ -52,28 +52,26 @@ export const addFood = (token, food) => {
       headers:{"Content-type":"application/json", "token":token},
       body:JSON.stringify(food)
     }
-    dispatch(loading());
-    fetch("/api/food",request).then(response => {
-      dispatch(endLoading());
-      if(response.ok) {
-        dispatch(addFoodSuccess());
-        history.push("/addmeal");
-
-      } 
-      else {
-        if(response.status === 403) {
-          dispatch(addFoodFailed("Session Failed."));
-          dispatch(logoutSuccess());
-          dispatch(clearFoodReducerState());
-        }
+    trackPromise(
+      fetch("/api/food",request).then(response => {
+        if(response.ok) {
+          dispatch(addFoodSuccess());
+          history.push("/addmeal");
+        } 
         else {
-          dispatch(addFoodFailed("Server responded with status:",response.status));
+          if(response.status === 403) {
+            dispatch(addFoodFailed("Session Failed."));
+            dispatch(logoutSuccess());
+            dispatch(clearFoodReducerState());
+          }
+          else {
+            dispatch(addFoodFailed("Server responded with status:",response.status));
+          }
         }
-      }
-    }).catch(error => {
-      dispatch(endLoading());
-      dispatch(addFoodFailed("Server responded with an error:"+error));    
-    })
+      }).catch(error => {
+        dispatch(addFoodFailed("Server responded with an error:"+error));    
+      })
+    );
   }
 }  
 
@@ -84,26 +82,24 @@ export const removeFood = (token, id) => {
       mode:"cors",
       headers:{"Content-type":"application/json", "token":token}
     }
-    dispatch(loading());
-    fetch("/api/food/"+id,request).then(response => {
-      
-      if(response.ok) {
-        dispatch(removeFoodSuccess());
-      } else {
-        dispatch(endLoading());
-        if(response.status === 403) {
-          dispatch(removeFoodFailed("Session Failed."));
-          dispatch(logoutSuccess());
-          dispatch(clearFoodReducerState());
+    trackPromise(
+      fetch("/api/food/"+id,request).then(response => {
+        if(response.ok) {
+          dispatch(removeFoodSuccess());
+        } else {
+          if(response.status === 403) {
+            dispatch(removeFoodFailed("Session Failed."));
+            dispatch(logoutSuccess());
+            dispatch(clearFoodReducerState());
+          }
+          else {
+            dispatch(removeFoodFailed("Server responded with status:",response.status));
+          }
         }
-        else {
-          dispatch(removeFoodFailed("Server responded with status:",response.status));
-        }
-      }
-    }).catch(error => {
-      dispatch(endLoading());
-      dispatch(removeFoodFailed("Server responded with an error:"+error));
-    })
+      }).catch(error => {
+        dispatch(removeFoodFailed("Server responded with an error:"+error));
+      })
+    );
   }
 }
 

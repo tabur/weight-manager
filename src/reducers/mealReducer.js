@@ -5,29 +5,14 @@ import {
 	ADD_MEAL_FAILED,
   REMOVE_MEAL_SUCCESS,
   REMOVE_MEAL_FAILED,
-  EDIT_MEAL_SUCCESS,
-  EDIT_MEAL_FAILED,
+  // EDIT_MEAL_SUCCESS,
+  // EDIT_MEAL_FAILED,
   CLEAR_MEALREDUCER_STATE,
 } from '../actions/mealActions'
 
-
-const getInitialStateFromStorage = () => {
-	if(sessionStorage.getItem("mealstate")) {
-		let mealstate = JSON.parse(sessionStorage.getItem("mealstate"))
-		return mealstate;
-	} else {
-		return {
-      mealList:[],
-			error:""
-		}
-	}
+const initialState = {
+  mealList: []
 }
-
-const saveToStorage = (state) => {
-	sessionStorage.setItem("mealstate",JSON.stringify(state));
-}
-
-const initialState = getInitialStateFromStorage();
 
 const mealReducer = (state = initialState,action) => {
 	console.log("MealReducer, action:",action);
@@ -39,7 +24,6 @@ const mealReducer = (state = initialState,action) => {
         mealList:action.mealList,
         error:""
       }
-      saveToStorage(tempState);
       return tempState;
 
     case GET_MEALS_FAILED:
@@ -47,7 +31,6 @@ const mealReducer = (state = initialState,action) => {
         ...state,
         error:action.error
       }
-      saveToStorage(tempState);
       return tempState;
 
     case ADD_MEAL_SUCCESS:
@@ -55,7 +38,6 @@ const mealReducer = (state = initialState,action) => {
         ...state,
         error:""
       }
-      saveToStorage(tempState);
       return tempState;
 
     case ADD_MEAL_FAILED:
@@ -63,7 +45,6 @@ const mealReducer = (state = initialState,action) => {
         ...state,
         error:action.error
       }
-      saveToStorage(tempState);
       return tempState;
 
     case REMOVE_MEAL_SUCCESS:
@@ -71,7 +52,6 @@ const mealReducer = (state = initialState,action) => {
         ...state,
         error:""
       }
-      saveToStorage(tempState);
       return tempState;
 
     case REMOVE_MEAL_FAILED:
@@ -79,33 +59,29 @@ const mealReducer = (state = initialState,action) => {
         ...state,
         error:action.error
       }
-      saveToStorage(tempState);
       return tempState;
     
-    case EDIT_MEAL_SUCCESS:
-      tempState = {
-        ...state,
-        error:action.error
-      }
-      saveToStorage(tempState);
-      return tempState;
+    // case EDIT_MEAL_SUCCESS:
+    //   tempState = {
+    //     ...state,
+    //     error:action.error
+    //   }
+    //   return tempState;
   
-    case EDIT_MEAL_FAILED:
-      tempState = {
-        ...state,
-        error:action.error
-      }
-      saveToStorage(tempState);
-      return tempState;
+    // case EDIT_MEAL_FAILED:
+    //   tempState = {
+    //     ...state,
+    //     error:action.error
+    //   }
+    //   return tempState;
 
     case CLEAR_MEALREDUCER_STATE:
-    tempState = {
-      mealList:[],
-      error:"",
-      
-    }
-    saveToStorage(tempState);
-    return tempState;
+      tempState = {
+        mealList:[],
+        error:"",
+        
+      }
+      return tempState;
 
     default:
       return state;

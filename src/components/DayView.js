@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {removeMeal, getMeals} from '../actions/mealActions';
+import equal from  'fast-deep-equal';
 
 class DayView extends React.Component {
   
@@ -18,9 +19,12 @@ class DayView extends React.Component {
   componentDidMount() {
     this.props.dispatch(getMeals(this.props.token, this.props.date));
   }
-  componentDidUpdate() {
-    this.props.dispatch(getMeals(this.props.token, this.props.date));
-  }
+  
+  // componentDidUpdate(prevProps) {
+  //   if(!equal(this.props.mealList, prevProps.mealList)) {
+  //     console.log("mealLists are not the same");
+  //   }
+  // }
 
   render(){
     let diaryRow = this.props.mealList.map((meal, i) => 
@@ -41,7 +45,7 @@ class DayView extends React.Component {
         <Col md={1} id="carbs" className="cell">{meal.food.carbs*(meal.amount/100)} g</Col>
         <Col md={1} id="fat" className="cell">{meal.food.fat*(meal.amount/100)} g</Col>
         <Col md={1} id="protein" className="cell">{meal.food.protein*(meal.amount/100)} g</Col>
-        <Col md={1}><a href="#" onClick={() => this.props.dispatch(removeMeal(this.props.token, meal.id))} className="text-danger font-weight-bold">X</a></Col>
+        <Col md={1}><a href="#" onClick={() => this.props.dispatch(removeMeal(this.props.token, meal.id, this.props.date))} className="text-danger font-weight-bold">X</a></Col>
       </Row>)
     )
 

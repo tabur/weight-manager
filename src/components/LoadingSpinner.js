@@ -1,15 +1,22 @@
 import React from 'react';
-import Spinner from 'react-bootstrap/Spinner';
+import Loader from 'react-loader-spinner';
+import { usePromiseTracker } from 'react-promise-tracker';
 
-class LoadingSpinner extends Component {
+
   
-  render() { 
-    return ( 
-      <Spinner animation="border" role="status">
-        <span className="sr-only">Loading...</span>
-      </Spinner> 
-    );
-  }
+const LoadingSpinner = props => {
+
+  const {promiseInProgress } = usePromiseTracker();
+
+  return ( 
+    promiseInProgress &&
+    <div className="loader">
+      <span className="sr-only">Loading...</span>
+      <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
+    </div>
+    
+  );
+  
 }
  
 export default LoadingSpinner;

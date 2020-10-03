@@ -1,14 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import './index.css';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import loginReducer from './reducers/loginReducer';
 import foodReducer from './reducers/foodReducer';
 import mealReducer from './reducers/mealReducer';
+import LoadingSpinner from './components/LoadingSpinner';
 
 import {Router} from 'react-router';
-import createBrowserHistory from 'history/createBrowserHistory';
+import {createBrowserHistory} from 'history';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
@@ -26,9 +30,9 @@ export const history = createBrowserHistory();
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-    <Router history={history}>
-      <App />
-    </Router>
+      <Router history={history}>
+        <App />
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

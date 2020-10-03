@@ -56,7 +56,7 @@ class App extends React.Component {
     tempDate.setDate(this.state.date.getDate()+offset);
     this.setState({date:tempDate});
     this.saveToStorage();
-    this.props.dispatch(getMeals);
+    this.props.dispatch(getMeals(this.props.token, this.state.date));
   }
 
 

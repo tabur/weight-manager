@@ -1,6 +1,4 @@
 import {
-  LOADING,
-  END_LOADING,
   LOGIN_SUCCESS,
   LOGIN_FAILED,
   LOGOUT_SUCCESS,
@@ -34,20 +32,6 @@ const loginReducer = (state = initialState, action) => {
   let tempState = {}
   
 	switch(action.type) {
-		case LOADING:
-			return {
-				...state,
-				loading:true,
-				error:""
-      }
-      
-		case END_LOADING: 
-			return {
-				...state,
-				loading:false,
-				error:""
-			}
-		
 		case LOGIN_SUCCESS:
 			tempState = {
 				isLogged:true,

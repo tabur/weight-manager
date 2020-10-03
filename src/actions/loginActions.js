@@ -1,11 +1,10 @@
-export const LOADING = "LOADING";
-export const END_LOADING = "END_LOADING";
+import {trackPromise} from 'react-promise-tracker';
+import clearFoodReducerState from './foodActions';
+
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILED = "LOGOUT_FAILED";
-export const CLEAR_FOODREDUCER_STATE = "CLEAR_FOODREDUCER_STATE";
-
 
 // async actions
 export const onLogin = (user) => {
@@ -16,21 +15,21 @@ export const onLogin = (user) => {
 			headers:{"Content-type":"application/json"},
 			body:JSON.stringify(user)
     }
-    dispatch(loading());
-		fetch("/login",request).then(response => {
-			if(response.ok) {
-				response.json().then(data => {
-          dispatch(loginSuccess(user.username, data.token)); 
-				}).catch(error => {
-          dispatch(loginFailed("Failed to parse response. Reason:",error));
-        })
-			} else {
-				dispatch(loginFailed("Server responded with status:",response.status));
-			}
-		}).catch(error => {
-			dispatch(loginFailed("Server responded with an error:",error));
-    })
-    
+    trackPromise(
+      fetch("/login",request).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            dispatch(loginSuccess(user.username, data.token)); 
+          }).catch(error => {
+            dispatch(loginFailed("Failed to parse response. Reason:",error));
+          })
+        } else {
+          dispatch(loginFailed("Server responded with status:",response.status));
+        }
+      }).catch(error => {
+        dispatch(loginFailed("Server responded with an error:",error));
+      })
+    );
   }
 }
 	
@@ -42,27 +41,13 @@ export const onLogout = (token) => {
       headers: {"Content-type":"application/json",
       "token":token}
     }
-    dispatch(loading());
-    fetch("/logout",request).then(response => {
-      dispatch(logoutSuccess());
-      dispatch(clearFoodReducerState());
-    }).catch(error => {
-      dispatch(logoutFailed("Server responded with an error",error));
-      dispatch(clearFoodReducerState());
-    })
-  }
-}
-
-
-export const loading = () => {
-  return {
-    type:LOADING
-  }
-}
-
-export const endLoading = () => {
-  return {
-    type:END_LOADING
+    trackPromise(
+      fetch("/logout",request).then(response => {
+        dispatch(logoutSuccess());
+      }).catch(error => {
+        dispatch(logoutFailed("Server responded with an error",error));
+      })
+    );
   }
 }
 
@@ -90,11 +75,5 @@ export const logoutSuccess = () => {
 export const logoutFailed = (error) => {
   return {
     type:LOGOUT_FAILED
-  }
-}
-
-export const clearFoodReducerState = () => {
-  return {
-    type:CLEAR_FOODREDUCER_STATE
   }
 }
