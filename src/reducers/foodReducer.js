@@ -1,6 +1,8 @@
 import {
 	GET_FOOD_LIST_SUCCESS,
   GET_FOOD_LIST_FAILED,
+  GET_FOOD_SUCCESS,
+  GET_FOOD_FAILED,
 	ADD_FOOD_SUCCESS,
   ADD_FOOD_FAILED,
 	REMOVE_FOOD_SUCCESS,
@@ -51,7 +53,24 @@ const foodReducer = (state = initialState,action) => {
       }
       saveToStorage(tempState);
       return tempState;
-      
+
+    case GET_FOOD_SUCCESS:
+      tempState = {
+        ...state,
+        food:action.food,
+        error:""
+      }
+      saveToStorage(tempState);
+      return tempState;
+
+    case GET_FOOD_FAILED:
+      tempState = {
+        ...state,
+        error:action.error
+      }
+      saveToStorage(tempState);
+      return tempState;      
+
     case ADD_FOOD_SUCCESS:
       tempState = {
         ...state,

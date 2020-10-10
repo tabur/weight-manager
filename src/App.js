@@ -2,15 +2,16 @@ import React from 'react';
 //import logo from './logo.svg';
 import './App.css';
 //import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import {withRouter, Switch, Route, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+
 import AddFood from './components/AddFood';
 import NavBar from './components/NavBar';
 import DayView from './components/DayView';
 import Container from 'react-bootstrap/Container';
 import Login from './components/Login';
 import AddMeal from './components/AddMeal';
-import {Switch, Route, Redirect} from 'react-router-dom';
-import {withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
+import EditFood from './components/EditFood';
 import {getMeals} from './actions/mealActions';
 //import {DateProvider} from 'DateContext';
 
@@ -33,21 +34,21 @@ class App extends React.Component {
   //helpers
   
 	
-	loadFromStorage = () => {
-		if(sessionStorage.getItem("state")) {
-      let state = JSON.parse(sessionStorage.getItem("state"));
-      state.date = new Date(state.date);
-			this.setState(state);
-		}
-	}
+	// loadFromStorage = () => {
+	// 	if(sessionStorage.getItem("state")) {
+  //     let state = JSON.parse(sessionStorage.getItem("state"));
+  //     state.date = new Date(state.date);
+	// 		this.setState(state);
+	// 	}
+	// }
 	
-	saveToStorage = () => {
-		sessionStorage.setItem("state",JSON.stringify(this.state));
-	}
+	// saveToStorage = () => {
+	// 	sessionStorage.setItem("state",JSON.stringify(this.state));
+	// }
 	
-	componentDidMount() {
-		this.loadFromStorage();
-  }
+	// componentDidMount() {
+	// 	this.loadFromStorage();
+  // }
   
 
   
@@ -55,7 +56,7 @@ class App extends React.Component {
     let tempDate = this.state.date;
     tempDate.setDate(this.state.date.getDate()+offset);
     this.setState({date:tempDate});
-    this.saveToStorage();
+    //this.saveToStorage();
     this.props.dispatch(getMeals(this.props.token, this.state.date));
   }
 
@@ -87,6 +88,11 @@ class App extends React.Component {
               (<AddFood />):
               (<Redirect to="/"/>)
             )}/>
+            <Route path="/editfood/:foodId" render={() => (
+              this.props.isLogged ?
+              (<EditFood />):
+              (<Redirect to="/" />)
+            )} />
             <Route render={() => (
               this.props.isLogged ?
               (<Redirect to="/diary"/>):
