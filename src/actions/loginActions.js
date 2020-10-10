@@ -1,5 +1,4 @@
 import {trackPromise} from 'react-promise-tracker';
-import clearFoodReducerState from './foodActions';
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";

@@ -25,7 +25,6 @@ class AddFood extends React.Component {
       protein: "",
       salt: ""
     }
-
   }
 
   onChange = (event) => {
@@ -66,7 +65,6 @@ class AddFood extends React.Component {
       protein:"",
       salt:""
 		});
-
   }
  
   render() {

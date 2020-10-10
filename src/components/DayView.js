@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {removeMeal, getMeals} from '../actions/mealActions';
-import equal from  'fast-deep-equal';
+//import equal from  'fast-deep-equal';
 
 class DayView extends React.Component {
   
