@@ -5,8 +5,9 @@ import Col from 'react-bootstrap/Col';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {getFoodList} from '../actions/foodActions';
-import {addMeal} from '../actions/mealActions'
-
+import {addMeal} from '../actions/mealActions';
+import FoodPicker from './FoodPicker';
+import FoodStats from './FoodStats';
 
 class AddMeal extends React.Component {
   constructor(props) {
@@ -15,7 +16,8 @@ class AddMeal extends React.Component {
       selected: null,
       amount: "",
       searchterm: "",
-      value: ""
+      value: "",
+      validated: false
     }
   }
   
@@ -25,10 +27,18 @@ class AddMeal extends React.Component {
 		this.setState(state);
 	}
 
-  onSubmit = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
-    let meal = {"amount": this.state.amount, "food": this.state.selected}
-    this.props.dispatch(addMeal(this.props.username, this.props.token, this.props.date, meal));
+    const form = event.currentTarget;
+    if(!form.checkValidity()) {
+      event.stopPropagation();
+    }
+    else {
+      this.setState({validated:true});
+      let meal = {"amount": this.state.amount, "food": this.state.selected}
+      this.props.dispatch(addMeal(this.props.username, this.props.token, this.props.date, meal));
+    }
+    
   }
 
   onSearch = (e) => {
@@ -48,120 +58,25 @@ class AddMeal extends React.Component {
   }
 
   render() {
-
-    let foodRow = this.props.foodList.map(food =>
-      <option key={food.id} value={food.id}>{food.manufacturer} {food.description}</option>
-    )
-
-    let foodStats = "";
-    
-    if(this.state.selected) {
-      foodStats = 
-        <div>
-          <Form.Row className="pt-1">
-            <p>Manufacturer:&nbsp;</p><p>{this.state.selected.manufacturer}</p>
-          </Form.Row>
-          <Form.Row>
-            <p>Description:&nbsp;</p><p>{this.state.selected.description}</p>
-          </Form.Row>
-          <Form.Row>
-            <p>Energy:&nbsp;</p><p>{this.state.selected.energy}</p>
-          </Form.Row>
-          <Form.Row>
-            <p>Carbs:&nbsp;</p><p>{this.state.selected.carbs}</p>
-          </Form.Row>
-          <Form.Row>
-            <p>Sugar:&nbsp;</p><p>{this.state.selected.sugar}</p>
-          </Form.Row>
-          <Form.Row>
-            <p>Fiber:&nbsp;</p><p>{this.state.selected.fiber}</p>
-          </Form.Row>
-          <Form.Row>
-            <p>Total Fat:&nbsp;</p><p>{this.state.selected.fat}</p>
-          </Form.Row>
-          <Form.Row>
-            <p>Saturated fat:&nbsp;</p><p>{this.state.selected.saturated}</p>
-          </Form.Row>
-          <Form.Row>
-            <p>Unsaturated fat:&nbsp;</p><p>{this.state.selected.unsaturated}</p>
-          </Form.Row>
-          <Form.Row>
-            <p>Salt:&nbsp;</p><p>{this.state.selected.salt}</p>
-          </Form.Row>
-        </div>
-    }
-    else {
-      foodStats =
-        <div>
-          <Form.Row className="pt-1">
-            <p>Manufacturer:&nbsp;</p><p></p>
-          </Form.Row>
-          <Form.Row>
-            <p>Description:&nbsp;</p><p></p>
-          </Form.Row>
-          <Form.Row>
-            <p>Energy:&nbsp;</p><p></p>
-          </Form.Row>
-          <Form.Row>
-            <p>Carbs:&nbsp;</p><p></p>
-          </Form.Row>
-          <Form.Row>
-            <p>Sugar:&nbsp;</p><p></p>
-          </Form.Row>
-          <Form.Row>
-            <p>Fiber:&nbsp;</p><p></p>
-          </Form.Row>
-          <Form.Row>
-            <p>Total Fat:&nbsp;</p><p></p>
-          </Form.Row>
-          <Form.Row>
-            <p>Saturated fat:&nbsp;</p><p></p>
-          </Form.Row>
-          <Form.Row>
-            <p>Unsaturated fat:&nbsp;</p><p></p>
-          </Form.Row>
-          <Form.Row>
-            <p>Salt:&nbsp;</p><p></p>
-          </Form.Row>
-        </div>
-    }
-
-
     return(
       <div>
         <h2>Add Meal</h2>
-        <Form size="sm" onSubmit={this.onSubmit}>
+        <Form size="sm" noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
           <Form.Row>
+            <FoodPicker foodList={this.props.foodList} selectFood={this.selectFood}/>
             <Col>
-              <Form.Row>
-                <Col>
-                  <Form.Label>Search</Form.Label>
-                  <Form.Control type="text" name="search" value={this.state.searchterm} onChange={this.onSearch}/>
-                </Col>
-              </Form.Row>
-              <Form.Row className="pt-2">
-                <Form.Group as={Col} className="pl-0 ml-0">
-                  <Form.Label>Food</Form.Label>
-                  <Form.Control as="select" value={this.state.value} onChange={this.selectFood}>
-                    <option>select food item</option>
-                    {foodRow}
-                  </Form.Control>
-                </Form.Group>
-              </Form.Row>
-            </Col>
-            <Col>
-              <Form.Row className="pl-2 pt-2">
+              <Form.Row className="ml-2">
                 <Col>
                   <Form.Row>
                     <Form.Group as={Col} md={3} className="pl-0 ml-0">
                       <Form.Label>Amount</Form.Label>
-                      <Form.Control type="text" name="amount" value={this.state.amount} placeholder="g" onChange={this.onChange} />
+                      <Form.Control type="text" name="amount" value={this.state.amount} placeholder="g" required onChange={this.onChange} />
+                      <Form.Control.Feedback type="invalid">Enter amount</Form.Control.Feedback>
                     </Form.Group>
                   </Form.Row>
-
-                  {foodStats}
+                    <FoodStats selected={this.state.selected} />
                   <Form.Row>
-                    <Button type="submit" variant="success" onClick={this.onSubmit}>Add meal</Button>
+                    <Button type="submit" variant="success">Add meal</Button>
                     <div className="pl-2">
                       <Link to="/"><Button variant="danger">Cancel</Button> </Link>
                     </div>
