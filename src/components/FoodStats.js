@@ -5,7 +5,7 @@ const FoodStats = (props) => {
   return(
     <>
       <Form.Group md={3} className="">
-        <Form.Label>Stats</Form.Label>
+        <Form.Label>Nutrition per 100g</Form.Label>
         <Form.Row className="">
           <span>Manufacturer:&nbsp;</span><span>{props.selected?.manufacturer}</span>
         </Form.Row>
