@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import {Link} from 'react-router-dom';
-import {onLogout} from '../actions/loginActions';
+import {onLogout} from '../actions/userActions';
 import {connect} from 'react-redux';
 
 class NavBar extends React.Component {
@@ -11,10 +11,12 @@ class NavBar extends React.Component {
   render() {
 
     let link1 = "";
+    let link2 = "";
     let options = "";
     if(this.props.isLogged) {
       
       link1 = <Nav.Item><Link to="/diary">Diary</Link><span className="sr-only"></span></Nav.Item>
+      link2 = <Nav.Item><Link to="/addrecipe">Add Recipe</Link></Nav.Item>
       options = <NavDropdown variant="light" title={this.props.username} className="ml-auto mr-2" alignRight aria-labelledby="navbarDropdownMenuLink">
                   <NavDropdown.Item onClick={() => {this.props.dispatch(onLogout(this.props.token))}}>
                     Logout
@@ -25,10 +27,13 @@ class NavBar extends React.Component {
 
     return(
       <Navbar variant="dark" className="navbar navbar-expand pl-4">
-        <Navbar.Brand href="" id="logo">Nutrack</Navbar.Brand>
+        <Navbar.Brand href="" id="logo">Futark</Navbar.Brand>
         <Nav className="pl-3" activeKey="link-1">
           <Nav.Item>
             {link1}
+          </Nav.Item>
+          <Nav.Item>
+            {link2}
           </Nav.Item>
           {/* <Nav.Item>
             <Nav.Link eventKey="link-2" href="#">Statistics</Nav.Link>
@@ -42,9 +47,9 @@ class NavBar extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    username:state.login.username,
-    token:state.login.token,
-    isLogged:state.login.isLogged,
+    username:state.user.username,
+    token:state.user.token,
+    isLogged:state.user.isLogged,
 
   }
 }

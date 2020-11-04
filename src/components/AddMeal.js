@@ -41,25 +41,20 @@ class AddMeal extends React.Component {
     
   }
 
-  onSearch = (e) => {
-    this.onChange(e);
-  }
-
-
   componentDidMount = () => {
     this.props.dispatch(getFoodList(this.props.token));
   }
 
-  selectFood = (e) => {
-    this.onChange(e);
-    let selected = this.props.foodList.filter(food => food.id === Number(e.target.value))[0];
+  selectFood = (event) => {
+    //this.onChange(e);
+    let selected = this.props.foodList.filter(food => food.id === Number(event.target.value))[0];
     this.setState({selected: selected});
     
   }
 
   render() {
     return(
-      <div>
+      <>
         <h2>Add Meal</h2>
         <Form size="sm" noValidate validated={this.state.validated} onSubmit={this.handleSubmit}>
           <Form.Row>
@@ -95,7 +90,7 @@ class AddMeal extends React.Component {
             </Col>
           </Form.Row>
         </Form>
-      </div>
+      </>
     )
   }
 }
@@ -103,8 +98,8 @@ class AddMeal extends React.Component {
 const mapStateToProps = (state) => {
   return {
     foodList:state.food.foodList,
-    username:state.login.username,
-    token:state.login.token
+    username:state.user.username,
+    token:state.user.token
   }
 }
 

@@ -1,4 +1,4 @@
-import {logoutSuccess} from './loginActions';
+import {logoutSuccess} from './userActions';
 import {history} from '../index.js';
 import {trackPromise} from 'react-promise-tracker';
 

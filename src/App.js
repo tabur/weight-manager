@@ -12,7 +12,10 @@ import Container from 'react-bootstrap/Container';
 import Login from './components/Login';
 import AddMeal from './components/AddMeal';
 import EditFood from './components/EditFood';
+import AddRecipe from './components/AddRecipe';
+import RegisterUser from './components/RegisterUser';
 import {getMeals} from './actions/mealActions';
+import EnterStats from './components/EnterStats';
 //import {DateProvider} from 'DateContext';
 
 class App extends React.Component {
@@ -24,33 +27,7 @@ class App extends React.Component {
     this.state = {
       date: tempDate,
     }
-    //this.state.dispatch(getFoodList);
   }
-
-  //static date;
-
-	//meals: [date, amount, food{}]
-
-  //helpers
-  
-	
-	// loadFromStorage = () => {
-	// 	if(sessionStorage.getItem("state")) {
-  //     let state = JSON.parse(sessionStorage.getItem("state"));
-  //     state.date = new Date(state.date);
-	// 		this.setState(state);
-	// 	}
-	// }
-	
-	// saveToStorage = () => {
-	// 	sessionStorage.setItem("state",JSON.stringify(this.state));
-	// }
-	
-	// componentDidMount() {
-	// 	this.loadFromStorage();
-  // }
-  
-
   
   onDateChange = (offset) => {
     let tempDate = this.state.date;
@@ -59,8 +36,6 @@ class App extends React.Component {
     //this.saveToStorage();
     this.props.dispatch(getMeals(this.props.token, this.state.date));
   }
-
-
 
   render() {
     return(
@@ -72,6 +47,11 @@ class App extends React.Component {
               this.props.isLogged ?
               (<Redirect to="/diary"/>):
               (<Login />)
+            )}/>
+            <Route path="/register" render={() => (
+              this.props.isLogged ?
+              (<Redirect to="/"/>):
+              (<RegisterUser />)
             )}/>
             <Route path="/diary" render={() => (
               this.props.isLogged ?
@@ -86,6 +66,16 @@ class App extends React.Component {
             <Route path="/addfood" render={() => (
               this.props.isLogged ?
               (<AddFood />):
+              (<Redirect to="/"/>)
+            )}/>
+            <Route path="/addrecipe" render={() => (
+              this.props.isLogged ?
+              (<AddRecipe />):
+              (<Redirect to="/"/>)
+            )}/>
+            <Route path="/trackstats" render={() => (
+              this.props.isLogged ?
+              (<EnterStats />):
               (<Redirect to="/"/>)
             )}/>
             <Route path="/editfood/:foodId" render={() => (
@@ -108,9 +98,9 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-    isLogged:state.login.isLogged,
-    username:state.login.username,
-    token:state.login.token
+    isLogged:state.user.isLogged,
+    username:state.user.username,
+    token:state.user.token
 	}
 }
 

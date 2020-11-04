@@ -200,7 +200,7 @@ class EditFood extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    token:state.login.token,
+    token:state.user.token,
     food:state.food.food
   }
 }

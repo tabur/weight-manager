@@ -4,7 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import {connect} from 'react-redux';
-import {onLogin} from '../actions/loginActions';
+import {onLogin} from '../actions/userActions';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
@@ -43,11 +44,12 @@ class Login extends React.Component {
           <Form.Label>Login</Form.Label>
           
           <Form.Control type="text" name="username" value={this.state.username} onChange={this.onChange} placeholder="Username" />
-          <div className="pt-1">
+          <div className="mt-1">
             <Form.Control type="password" name="password" value={this.state.password} onChange={this.onChange} placeholder="Password" />
           </div>
-          <div className="pt-2"><Button type="submit">Login</Button></div>
+          <div className="mt-1"><Button type="submit">Login</Button></div>
         </Form>
+        <Form.Row><Link to="/register">Register</Link></Form.Row>
         </Col>
         <Col md={4}></Col>
       </Row>

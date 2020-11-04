@@ -7,6 +7,8 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {removeMeal, getMeals} from '../actions/mealActions';
 //import equal from  'fast-deep-equal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {faAngleLeft, faAngleRight, faTimes, faCalendar} from '@fortawesome/free-solid-svg-icons';
 
 class DayView extends React.Component {
   
@@ -36,7 +38,10 @@ class DayView extends React.Component {
         <Col md={1} id="carbs" className="cell">{meal.food.carbs*(meal.amount/100)} g</Col>
         <Col md={1} id="fat" className="cell">{meal.food.fat*(meal.amount/100)} g</Col>
         <Col md={1} id="protein" className="cell">{meal.food.protein*(meal.amount/100)} g</Col>
-        <Col md={1}><a href="#" onClick={() => this.props.dispatch(removeMeal(this.props.token, meal.id))} className="text-danger font-weight-bold">X</a></Col>
+        <Col md={1}>
+          <Button variant="outline-danger" size="sm" onClick={() => this.props.dispatch(removeMeal(this.props.token, meal.id, this.props.date))} 
+            className=""><FontAwesomeIcon icon={faTimes} /></Button>
+        </Col>
       </Row>):
       (<Row key={meal.id} id={meal.id} className="diary-item p-1 pl-4">
         <Col md={3} className="cell">{meal.food.manufacturer} {meal.food.description}</Col>
@@ -45,7 +50,10 @@ class DayView extends React.Component {
         <Col md={1} id="carbs" className="cell">{meal.food.carbs*(meal.amount/100)} g</Col>
         <Col md={1} id="fat" className="cell">{meal.food.fat*(meal.amount/100)} g</Col>
         <Col md={1} id="protein" className="cell">{meal.food.protein*(meal.amount/100)} g</Col>
-        <Col md={1}><a href="#" onClick={() => this.props.dispatch(removeMeal(this.props.token, meal.id, this.props.date))} className="text-danger font-weight-bold">X</a></Col>
+        <Col md={1}>
+          <Button variant="outline-danger" size="sm" onClick={() => this.props.dispatch(removeMeal(this.props.token, meal.id, this.props.date))} 
+            className=""><FontAwesomeIcon icon={faTimes} /></Button>
+        </Col>
       </Row>)
     )
 
@@ -54,12 +62,13 @@ class DayView extends React.Component {
         <Row id="date-button-row" className="pl-4 py-1 text-light">
             <Col md={3}></Col>
               <div className="btn-group">
-                <Button className="bg-header text-light" onClick={()=>this.props.onDateChange(-1)}>&lt;</Button>
+                <Button className="bg-header text-light" onClick={()=>this.props.onDateChange(-1)}><FontAwesomeIcon icon={faAngleLeft}></FontAwesomeIcon></Button>
               </div>
             <Col md={4} id="date" className="align-self-center text-center p-2 mx-1 bg-header">
               {this.props.date.toLocaleDateString("fi-FI")}
+              {/* <Button><FontAwesomeIcon icon = {faCalendar}></FontAwesomeIcon></Button> */}
             </Col>
-            <Button className="bg-header text-light" onClick={()=>this.props.onDateChange(1)}>&gt;</Button>
+            <Button className="bg-header text-light" onClick={()=>this.props.onDateChange(1)}><FontAwesomeIcon icon={faAngleRight}></FontAwesomeIcon></Button>
         </Row>
         <Row id="diary-headings" className="py-1 pl-4 font-weight-bold bg-header text-light rounded-top">
           <Col md={3}>Name</Col>
@@ -89,7 +98,7 @@ class DayView extends React.Component {
 const mapStateToProps = (state) => {
 	return {
     mealList:state.meal.mealList,
-    token: state.login.token
+    token: state.user.token
 	}
 }
 

@@ -5,8 +5,8 @@ import {
 	ADD_MEAL_FAILED,
   REMOVE_MEAL_SUCCESS,
   REMOVE_MEAL_FAILED,
-  // EDIT_MEAL_SUCCESS,
-  // EDIT_MEAL_FAILED,
+  EDIT_MEAL_SUCCESS,
+  EDIT_MEAL_FAILED,
   CLEAR_MEALREDUCER_STATE,
 } from '../actions/mealActions'
 
@@ -61,19 +61,19 @@ const mealReducer = (state = initialState,action) => {
       }
       return tempState;
     
-    // case EDIT_MEAL_SUCCESS:
-    //   tempState = {
-    //     ...state,
-    //     error:action.error
-    //   }
-    //   return tempState;
+    case EDIT_MEAL_SUCCESS:
+      tempState = {
+        ...state,
+        error:""
+      }
+      return tempState;
   
-    // case EDIT_MEAL_FAILED:
-    //   tempState = {
-    //     ...state,
-    //     error:action.error
-    //   }
-    //   return tempState;
+    case EDIT_MEAL_FAILED:
+      tempState = {
+        ...state,
+        error:action.error
+      }
+      return tempState;
 
     case CLEAR_MEALREDUCER_STATE:
       tempState = {

@@ -2,14 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import './index.css';
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import loginReducer from './reducers/loginReducer';
+import userReducer from './reducers/userReducer';
 import foodReducer from './reducers/foodReducer';
 import mealReducer from './reducers/mealReducer';
-import LoadingSpinner from './components/LoadingSpinner';
 
 import {Router} from 'react-router';
 import {createBrowserHistory} from 'history';
@@ -18,7 +17,7 @@ import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
-	login:loginReducer,
+	user:userReducer,
   food:foodReducer,
   meal:mealReducer
 })

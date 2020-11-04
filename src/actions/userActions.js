@@ -4,6 +4,8 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILED = "LOGOUT_FAILED";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAILED = "REGISTER_FAILED";
 
 // async actions
 export const onLogin = (user) => {
@@ -50,6 +52,35 @@ export const onLogout = (token) => {
   }
 }
 
+export const onRegister = (user) => {
+  return dispatch => 	{
+		let request = {
+			method:"POST",
+			mode:"cors",
+			headers:{"Content-type":"application/json"},
+			body:JSON.stringify(user)
+    }
+    trackPromise(
+      fetch("/register",request).then(response => {
+        if(response.ok) {
+          response.json().then(data => {
+            dispatch(registerSuccess());
+            onLogin(user);
+          })
+        } else {
+          if(response.status === 409) {
+            dispatch(registerFailed("Register failed."));
+          } else {
+            dispatch(registerFailed("Server responded with status:",response.status));
+          }
+        }
+      }).catch(error => {
+        dispatch(registerFailed("Server responded with an error:",error));
+      })
+    );
+  }
+}
+
 export const loginSuccess = (username, token) => {
   return {
     type:LOGIN_SUCCESS,
@@ -74,5 +105,18 @@ export const logoutSuccess = () => {
 export const logoutFailed = (error) => {
   return {
     type:LOGOUT_FAILED
+  }
+}
+
+export const registerSuccess = () => {
+  return {
+    type:REGISTER_SUCCESS
+  }
+}
+
+export const registerFailed = (error) => {
+  return {
+    type:REGISTER_FAILED,
+    error:error
   }
 }
