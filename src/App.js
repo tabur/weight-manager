@@ -1,7 +1,6 @@
 import React from 'react';
 //import logo from './logo.svg';
 import './App.css';
-//import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import {withRouter, Switch, Route, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 

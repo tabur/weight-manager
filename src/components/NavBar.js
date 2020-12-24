@@ -15,7 +15,7 @@ class NavBar extends React.Component {
     let options = "";
     if(this.props.isLogged) {
       
-      link1 = <Nav.Item><Link to="/diary">Diary</Link><span className="sr-only"></span></Nav.Item>
+      link1 = <Nav.Item className="pr-2"><Link to="/diary">Diary</Link></Nav.Item>
       link2 = <Nav.Item><Link to="/addrecipe">Add Recipe</Link></Nav.Item>
       options = <NavDropdown variant="light" title={this.props.username} className="ml-auto mr-2" alignRight aria-labelledby="navbarDropdownMenuLink">
                   <NavDropdown.Item onClick={() => {this.props.dispatch(onLogout(this.props.token))}}>
